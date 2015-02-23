@@ -26,8 +26,18 @@ specfile=$1
 export LANG=C
 export mockcfg=${mockcfg:-nethserver-6.6-x86_64}
 
+#Who I'm
+ME=$(whoami)
+# What is the package name
+PACKAGE=$(basename $(pwd))
+# Informations needed from the spec file
+VERSION=$(rpm -q --qf "%{version}\n" --specfile $PACKAGE.spec | head -1)
+
+#ensure that the folder exists
+mkdir -p /home/$ME/exchange
+
 prep-sources ${specfile}
-mock --resultdir=. -r "${mockcfg}" -D "dist .${dist:-ns6}" \
+mock --resultdir=/home/$ME/exchange/$PACKAGE-$VERSION -r "${mockcfg}" -D "dist .${dist:-ns6}" \
      --buildsrpm --spec "${specfile}" --sources .
 
 
