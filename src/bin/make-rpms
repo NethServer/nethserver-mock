@@ -25,6 +25,13 @@ set -e
 specfile=$1
 tmpfiles=()
 
+#Who I'm
+ME=$(whoami)
+# What is the package name
+PACKAGE=$(basename $(pwd))
+# Informations needed from the spec file
+VERSION=$(rpm -q --qf "%{version}\n" --specfile $PACKAGE.spec | head -1)
+
 if [ -z "${specfile}" ]; then
     exec >&2
     echo "Build RPMs with mock"
@@ -90,8 +97,11 @@ else
     echo "" >&2
 fi
 
+#ensure that the folder exists
+mkdir -p /home/$ME/exchange
+
 make-srpm ${specfile}
 srpm=$(basename "$(grep '^Wrote: ' build.log | tail -1 )")
 mock -D "dist .${dist}" \
-     --resultdir=. -r ${mockcfg} ${srpm}
+     --resultdir=/home/$ME/exchange/$PACKAGE-$VERSION -r ${mockcfg} ${srpm}
 
