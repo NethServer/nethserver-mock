@@ -34,7 +34,9 @@ if have_git; then
     source0=$(basename $(spectool -s 0 ${specfile} | cut -f 2 -d ' '))
     prefix=$(basename ${source0} .tar.gz)
 
-    git archive --format=tar --prefix=${prefix}/ ${gitrev} | tar xf  -
+    git-archive-all.sh --prefix ${prefix}/ -t ${gitrev} ${prefix}.tar
+    tar xf ${prefix}.tar
+    rm -f ${gitrev} ${prefix}.tar.gz
     tar -c -z --exclude-vcs --exclude='.gitignore' -f ${source0} ${prefix}
     rm -rf ${prefix}
     echo `basename $0` "[INFO] source0 git archive: ${source0}"
