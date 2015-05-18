@@ -36,6 +36,7 @@ install -vp src/mock/* %{buildroot}/%{_sysconfdir}/mock
 %{_bindir}/make-srpm
 %{_bindir}/sign-rpms
 %{_bindir}/prep-sources
+%{_bindir}/git-archive-all.sh
 %config(noreplace) %{_sysconfdir}/mock/nethserver-6.5-x86_64.cfg
 %config(noreplace) %{_sysconfdir}/mock/nethserver-6.6-x86_64.cfg
 %doc COPYING
