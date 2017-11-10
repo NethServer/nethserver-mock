@@ -1,0 +1,53 @@
+#!/bin/bash
+
+#
+# Copyright (C) 2017 Nethesis S.r.l.
+# http://www.nethesis.it - nethserver@nethesis.it
+#
+# This script is part of NethServer.
+#
+# NethServer is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License,
+# or any later version.
+#
+# NethServer is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with NethServer.  If not, see COPYING.
+#
+
+#
+# Invoke as
+#    push-local-repo <basedir> <vmip>
+#
+# Prerequisites:
+#
+# - install the "createrepo" package in host at <vmip>
+# - ssh pubkey authentication at <vmip>
+#
+# basedir: find nethserver RPMs recursively, up to 2 levels of depth
+# vmip: target IP address where to create the YUM repository under /srv/local path
+#
+
+# Exit on error
+set -e
+
+BASEDIR=$1
+VMIP=$2
+REPODIR=${3:-/srv/local}
+
+cd $BASEDIR
+
+ssh root@${VMIP} "cat - > /etc/yum.repos.d/local.repo" <<EOF
+[local]
+name=local
+gpgcheck=0
+enabled=1
+baseurl=file://${REPODIR}
+EOF
+
+find . -maxdepth 2 \( -name 'nethserver*.noarch.rpm' -o -name 'nethserver*.x86_64.rpm' \) | tar -c -T - | ssh root@${VMIP} "test -x /usr/bin/createrepo || yum -q -y --disablerepo=local install createrepo ; mkdir -p ${REPODIR} ; cd ${REPODIR} ; tar -x -f - ; createrepo . ; yum clean --disablerepo=* --enablerepo=local metadata"

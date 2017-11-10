@@ -41,6 +41,7 @@ install -vp src/mock/* %{buildroot}/%{_sysconfdir}/mock
 %{_bindir}/upload-rpms
 %{_bindir}/git-archive-all.sh
 %{_bindir}/issue-refs
+%{_bindir}/push-local-repo
 %attr(0644,root,root) %config(noreplace) %{_sysconfdir}/mock/nethserver-6-x86_64.cfg
 %attr(0644,root,root) %config(noreplace) %{_sysconfdir}/mock/nethserver-7-x86_64.cfg
 %doc COPYING
@@ -83,4 +84,3 @@ install -vp src/mock/* %{buildroot}/%{_sysconfdir}/mock
 
 * Tue Dec 23 2014 Davide Principi <davide.principi@nethesis.it> - 0.0.1-1
 - Initial version
-
