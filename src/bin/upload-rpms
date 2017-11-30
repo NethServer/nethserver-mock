@@ -41,7 +41,7 @@ fi
     echo "cd ${spool}";
     for F in $*;
     do
-        echo "put -p $F";
+        echo "put $F";
     done;
     echo "cd ..";
     echo "rename ${spool} commit-${spool}" 
