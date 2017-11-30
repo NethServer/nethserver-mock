@@ -1,5 +1,5 @@
 Name:           nethserver-mock
-Version: 1.3.2
+Version: 1.4.0
 Release: 1%{?dist}
 Summary:        RPM build automation scripts for NethServer packages
 BuildArch:	noarch
@@ -47,6 +47,11 @@ install -vp src/mock/* %{buildroot}/%{_sysconfdir}/mock
 %doc COPYING
 
 %changelog
+* Thu Nov 30 2017 Davide Principi <davide.principi@nethesis.it> - 1.4.0-1
+- Fixed upload-rpms for Travis builds
+- Added push-local-repo command
+- Fix compatibility issue for mock 1.14
+
 * Thu Sep 29 2016 Davide Principi <davide.principi@nethesis.it> - 1.3.2-1
 - Fix initial whitespace on RPM changelog
 
