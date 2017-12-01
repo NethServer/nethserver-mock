@@ -15,6 +15,7 @@ Requires: bash
 Requires: coreutils
 Requires: expect
 Requires: python-requests
+Requires: yum-utils
 
 %description
 Provides build automation scripts for NethServer packages
