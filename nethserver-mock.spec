@@ -1,5 +1,5 @@
 Name:           nethserver-mock
-Version: 1.4.0
+Version: 1.4.1
 Release: 1%{?dist}
 Summary:        RPM build automation scripts for NethServer packages
 BuildArch:	noarch
@@ -48,6 +48,9 @@ install -vp src/mock/* %{buildroot}/%{_sysconfdir}/mock
 %doc COPYING
 
 %changelog
+* Mon Dec 04 2017 Davide Principi <davide.principi@nethesis.it> - 1.4.1-1
+- Add yum-utils dependency -- NethServer/dev#5393
+
 * Thu Nov 30 2017 Davide Principi <davide.principi@nethesis.it> - 1.4.0-1
 - Fixed upload-rpms for Travis builds
 - Added push-local-repo command
