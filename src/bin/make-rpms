@@ -62,7 +62,7 @@ function prepend_git_changelog() {
     local tmplog=$(mktemp  "$(dirname ${specfile})"/.tmpXXXXXXX.gitlog)
     tmpfiles+=("${tmplog}")
     (
-         changelog_date=$(date +"%a %b %d %Y")
+         changelog_date=$(LANG=en date +"%a %b %d %Y")
          packager_name=$(git config --get user.name)
          packager_email=$(git config --get user.email)
          echo "* ${changelog_date} ${packager_name} <${packager_email}> - ${dist}"
