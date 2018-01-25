@@ -24,6 +24,7 @@ set -e
 
 issuetracker_url=${issuetracker_url:-http://dev.nethserver.org}
 export LANG=C
+unset ${!LC_*}
 
 function exit_help ()
 {
@@ -61,7 +62,7 @@ fi
 git_user_name=$(git config --get user.name)
 git_user_email=$(git config --get user.email)
 editor=${EDITOR:-$(git config --get core.editor || echo 'vi')}
-changelog_timestamp=$(LANG=en date +"%a %b %d %Y")
+changelog_timestamp=$(date +"%a %b %d %Y")
 spec_file=(*.spec)
 spec_file=${1:-${spec_file[0]}}
 
