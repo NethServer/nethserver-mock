@@ -24,12 +24,13 @@ import sys
 import json
 import requests
 import re
+import os
 
 redmine_refs = {}
 github_refs = {}
 
-github_match = re.compile('NethServer/dev#(\d+)')
-redmine_match = re.compile('Refs\s+#(\d+)')
+github_match = re.compile(ur'\b([^/\s]+)/([^#\s]+)#(\d+)', re.IGNORECASE)
+redmine_match = re.compile(ur'\bRefs\s+#(\d+)', re.IGNORECASE)
 
 for line in sys.stdin:
     redmine_refs.update(dict.fromkeys(re.findall(redmine_match, line)))
@@ -37,7 +38,11 @@ for line in sys.stdin:
 
 for issue_id in redmine_refs.iterkeys():
     try:
-        issue = requests.get('http://dev.nethserver.org/issues/%s.json' % issue_id).json()['issue']
+        url = 'http://dev.nethserver.org/issues/%s.json' % issue_id
+        response = requests.get(url, headers={'User-Agent': None})
+        if not response.ok:
+            raise RuntimeError("%s: %s: " % (response.status_code, response.text))
+        issue = response.json()['issue']
         print "- %s - %s #%s [%s]%s" % ( \
             issue["subject"], \
             issue["tracker"]["name"], \
@@ -47,20 +52,32 @@ for issue_id in redmine_refs.iterkeys():
                 else " !!%s" % issue["status"]["name"] \
         )
     except Exception, e:
-        sys.stderr.write("[ERROR] %s" % str(e))
+        sys.stderr.write("[ERROR] %s\n" % str(e))
 
-for issue_id in github_refs.iterkeys():
+try:
+    if github_refs:
+        with open(os.path.expanduser('~/.release_tag_token')) as tokenf:
+            token = tokenf.readline().rstrip()
+            github_headers = {'Authorization': 'token %s' % token}
+except IOError as e:
+    sys.stderr.write("[ERROR] Failed to read the GitHub API token (%s)\n" % str(e))
+    github_headers = {}
+
+for issue_org, issue_repo, issue_id in github_refs:
     try:
-        # FIXME: GitHub rate limit for unauthenticated clients is 60 per hour per IP
-        issue = requests.get('https://api.github.com/repos/NethServer/dev/issues/%s' % issue_id).json()
-        print "- %s - %sNethServer/dev#%s%s" % ( \
+        url = 'https://api.github.com/repos/%s/%s/issues/%s' % (issue_org, issue_repo, issue_id)
+        response = requests.get(url, headers=github_headers)
+        if not response.ok:
+            raise RuntimeError("%s: %s: " % (response.status_code, response.text))
+        issue = response.json()
+        print "- %s - %s%s/%s#%s%s" % ( \
             issue['title'], \
-            "Bug " if filter(lambda l: l["name"] == "bug", issue["labels"]) \
-               else "", \
+            "Bug " if filter(lambda l: l["name"] == "bug", issue["labels"]) else "", \
+            issue_org,
+            issue_repo,
             issue['number'], \
             "" if filter(lambda l: l["name"] == "verified", issue["labels"]) \
                else " !! INCOMPLETE" \
         )
     except Exception, e:
-        sys.stderr.write("[ERROR] %s" % str(e))
-
+        sys.stderr.write("[ERROR] %s\n" % str(e))
