@@ -27,7 +27,18 @@ tmpfiles=()
 
 export LANG=C
 export dist=${dist:-ns7}
-export mockcfg=${mockcfg:-nethserver-7-x86_64}
+
+arch_cfg=$(arch)
+if [[ $arch_cfg = "armv7l" ]]; then
+    export mockcfg=${mockcfg:-nethserver-7-armhfp}
+    clean_option="--no-clean"
+elif [[ $arch_cfg = "aarch64" ]]; then
+   export mockcfg=${mockcfg:-nethserver-7-aarch64}
+   clean_option="--no-clean"
+else
+   export mockcfg=${mockcfg:-nethserver-7-x86_64}
+   clean_option=" "
+fi
 
 if [ -z "${specfile}" ]; then
     exec >&2
@@ -99,5 +110,4 @@ fi
 make-srpm ${specfile}
 srpm=$(basename "$(grep '^Wrote: ' build.log | tail -1 )")
 mock -D "dist .${dist}" \
-     --resultdir=. -r ${mockcfg} ${srpm}
-
+     --resultdir=. -r ${mockcfg} ${srpm} $clean_option

@@ -45,6 +45,8 @@ install -vp src/mock/* %{buildroot}/%{_sysconfdir}/mock
 %{_bindir}/push-local-repo
 %attr(0644,root,root) %config(noreplace) %{_sysconfdir}/mock/nethserver-6-x86_64.cfg
 %attr(0644,root,root) %config(noreplace) %{_sysconfdir}/mock/nethserver-7-x86_64.cfg
+%attr(0644,root,root) %config(noreplace) %{_sysconfdir}/mock/nethserver-7-armhfp.cfg
+%attr(0644,root,root) %config(noreplace) %{_sysconfdir}/mock/nethserver-7-aarch64.cfg
 %doc COPYING
 
 %changelog
