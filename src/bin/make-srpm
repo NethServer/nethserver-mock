@@ -27,10 +27,10 @@ export LANG=C
 
 
 distarch=$(arch)
-if [[ $dist_arch = "armv7l" ]]; then
+if [[ $distarch = "armv7l" ]]; then
     exportmockcfg=${mockcfg:-nethserver-7-armhfp}
     clean_option="--no-cleanup-after"
-elif [[ $dist_arch = "aarch64" ]]; then
+elif [[ $distarch = "aarch64" ]]; then
    export mokcfg=${mockcfg:-nethserver-7-aarch64}
    clean_option="--no-cleanup-after"
 else
