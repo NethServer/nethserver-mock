@@ -1,5 +1,5 @@
 Name:           nethserver-mock
-Version: 1.5.0
+Version: 1.6.0
 Release: 1%{?dist}
 Summary:        RPM build automation scripts for NethServer packages
 BuildArch:	noarch
@@ -50,6 +50,9 @@ install -vp src/mock/* %{buildroot}/%{_sysconfdir}/mock
 %doc COPYING
 
 %changelog
+* Thu Dec 20 2018 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 1.6.0-1
+- ARM arch 7.6.1810 beta release - NethServer/dev#5675
+
 * Mon Feb 05 2018 Davide Principi <davide.principi@nethesis.it> - 1.5.0-1
 - nethserver-mock: release-tag improvements - NethServer/dev#5418
 
