@@ -24,10 +24,23 @@ set -e
 
 specfile=$1
 export LANG=C
-export mockcfg=${mockcfg:-nethserver-7-x86_64}
+
+
+distarch=$(arch)
+if [[ $distarch = "armv7l" ]]; then
+    exportmockcfg=${mockcfg:-nethserver-7-armhfp}
+    clean_option="--no-cleanup-after"
+elif [[ $distarch = "aarch64" ]]; then
+   export mokcfg=${mockcfg:-nethserver-7-aarch64}
+   clean_option="--no-cleanup-after"
+else
+   export mockcfg=${mockcfg:-nethserver-7-x86_64}
+   clean_option=" "
+fi
 
 prep-sources ${specfile}
 mock --resultdir=. -r "${mockcfg}" -D "dist .${dist:-ns7}" \
-     --buildsrpm --spec "${specfile}" --sources .
+     --buildsrpm --spec "${specfile}" --sources . $clean_option
+     
 
 
