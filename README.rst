@@ -1,3 +1,5 @@
+.. _nethserver-mock-module:
+
 nethserver-mock
 ===============
 
@@ -121,3 +123,8 @@ signature from the filesystem. Sample invocation::
    sign-rpms -f ~/.secret -k ABCDABCD
 
 The signature is added automatically by ``packages.nethserver.org``.
+
+
+.. rubric:: References
+
+.. [#FedoraPG] Referencing Source http://fedoraproject.org/wiki/Packaging:SourceURL
