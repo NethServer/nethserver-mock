@@ -15,7 +15,7 @@ On **NethServer**, install ``nethserver-mock`` package, by typing: ::
 
 On **Fedora**, and other RPM-based distros run the command: ::
 
-  yum localinstall <URL>
+  yum install <URL>
 
 Or ::
 
