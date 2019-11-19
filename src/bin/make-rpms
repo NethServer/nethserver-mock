@@ -108,6 +108,6 @@ else
 fi
 
 make-srpm ${specfile}
-srpm=$(basename "$(grep '^Wrote: ' build.log | tail -1 )")
+srpm=$(basename "$(grep '^Wrote: ' build.log | tail -1 | tr -d '\r')")
 mock -D "dist .${dist}" \
      --resultdir=. -r ${mockcfg} ${srpm} $clean_option
