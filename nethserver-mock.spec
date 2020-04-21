@@ -1,5 +1,5 @@
 Name:           nethserver-mock
-Version: 1.6.1
+Version: 1.6.2
 Release: 1%{?dist}
 Summary:        RPM build automation scripts for NethServer packages
 BuildArch:	noarch
@@ -50,6 +50,9 @@ install -vp src/mock/* %{buildroot}/%{_sysconfdir}/mock
 %doc COPYING
 
 %changelog
+* Tue Apr 21 2020 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 1.6.2-1
+- Fix build onf Fedora 31
+
 * Thu Feb 06 2020 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 1.6.1-1
 - Backport Python3 fixes from nethserver-makerpms
 - Fix src RPM name capturing (#12)
