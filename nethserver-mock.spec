@@ -14,7 +14,7 @@ Requires: git >= 1.7.1
 Requires: bash
 Requires: coreutils
 Requires: expect
-Requires: python-requests
+Requires: python3-requests
 Requires: yum-utils
 
 %description
