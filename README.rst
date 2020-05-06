@@ -124,8 +124,8 @@ signature from the filesystem. Sample invocation::
 
 The signature is added automatically by ``packages.nethserver.org``.
 
-Running on EL8 (alpha)
-----------------------
+Running on EL8
+--------------
 
 It's possible to use ``nethserver-mock`` also on EL8 (CentOS 8).
 If the build fails, please remove ``dnf-plugin-spacewalk`` RPM from the system.
